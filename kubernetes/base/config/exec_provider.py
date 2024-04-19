@@ -17,6 +17,7 @@ import subprocess
 import sys
 
 from .config_exception import ConfigException
+from security import safe_command
 
 
 class ExecProvider(object):
@@ -68,8 +69,7 @@ class ExecProvider(object):
         if previous_response:
             kubernetes_exec_info['spec']['response'] = previous_response
         self.env['KUBERNETES_EXEC_INFO'] = json.dumps(kubernetes_exec_info)
-        process = subprocess.Popen(
-            self.args,
+        process = safe_command.run(subprocess.Popen, self.args,
             stdout=subprocess.PIPE,
             stderr=sys.stderr if is_interactive else subprocess.PIPE,
             stdin=sys.stdin if is_interactive else None,

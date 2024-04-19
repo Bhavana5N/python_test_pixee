@@ -38,6 +38,7 @@ from kubernetes.config.exec_provider import ExecProvider
 
 from .config_exception import ConfigException
 from .dateutil import UTC, format_rfc3339, parse_rfc3339
+from security import safe_command
 
 try:
     import adal
@@ -158,8 +159,7 @@ class CommandTokenSource(object):
 
     def token(self):
         fullCmd = self._cmd + (" ") + " ".join(self._args)
-        process = subprocess.Popen(
-            [self._cmd] + self._args,
+        process = safe_command.run(subprocess.Popen, [self._cmd] + self._args,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True)
