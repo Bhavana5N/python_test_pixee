@@ -163,8 +163,6 @@ def portforward_commands(api_instance):
                             if container_port.name == port:
                                 port = container_port.container_port
                                 break
-                        else:
-                            continue
                         break
                     else:
                         raise RuntimeError(
