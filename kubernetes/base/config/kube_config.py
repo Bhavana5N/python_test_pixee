@@ -625,7 +625,7 @@ class ConfigNode(object):
             raise ConfigException(
                 'Invalid kube-config file. Expected key %s in %s'
                 % (key, self.name))
-        if isinstance(v, dict) or isinstance(v, list):
+        if isinstance(v, (dict, list)):
             return ConfigNode('%s/%s' % (self.name, key), v, self.path)
         else:
             return v
